@@ -2,7 +2,7 @@ defmodule PokebootWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", PokebootWeb.RoomChannel
+  channel "battles:*", PokebootWeb.BattlesChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
