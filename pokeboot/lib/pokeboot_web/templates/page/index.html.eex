@@ -1,6 +1,30 @@
-<div class="text-center m-5 p-5" id="root">
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function joinGame(e) {
+      const roomName = document.querySelector("#room-name").value;
+      const link = window.location.href + "battles/" + roomName
+      window.location.replace(link);
+      console.log("joining game...")
+    }
+    function enterInput(e) {
+      const key = e.keyCode;
+        if (key === 13) {
+          joinGame();
+        }
+    }
+
+    const input = document.querySelector("#room-name");
+    input.focus();
+    input.select();
+    input.addEventListener("keypress", enterInput);
+
+  }, false);
+</script>
+
+
+<div class="text-center m-5 p-5">
   <h1>Join a Battle</h1>
-  <p><input type="text" class="px-5" id="room-input"></p>
+  <p><input type="text" class="px-5" id="room-name"></p>
 
   <div class="m-5">
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Mystic-643418365 -->

@@ -10,16 +10,6 @@
     <title>Hello Pokeboot!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet">
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const input = document.querySelector("#room-input");
-        input.focus();
-        input.select();
-      }, false);
-    </script>
-
-
   </head>
 
   <body>

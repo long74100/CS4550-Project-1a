@@ -21,9 +21,18 @@ import "phoenix_html"
 import socket from "./socket"
 import React from 'react';
 import ReactDOM from 'react-dom';
+import run_pokeboot from './pokeboot'
 
+function init() {
+  // Now that you are connected, you can join channels with a topic:
+  let battle = document.querySelector('#battle');
 
-// ReactDOM.render(
-//   <h1>Hello, Trainer!</h1>,
-//   document.getElementById('root')
-// );
+  if (battle) {
+    let channel = socket.channel("battles:" + window.battleName, {});
+    run_pokeboot(battle, channel);
+    console.log(window.battleName);
+  }
+
+}
+
+$(init);
