@@ -1,9 +1,17 @@
 defmodule PokebootWeb.BattlesChannel do
   use PokebootWeb, :channel
+  alias Pokeboot.BattleRooms
+  alias Pokeboot.Battle
 
   def join("battles:" <> name, payload, socket) do
     if authorized?(payload) do
-      IO.puts name
+      battle = (BattleRooms.load(name) || Battle.new())
+              |> Battle.loadTrainer(payload)
+
+      IO.inspect battle
+      # IO.puts name
+      # IO.puts payload["trainerName"]
+      # IO.puts payload["starter"]
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
