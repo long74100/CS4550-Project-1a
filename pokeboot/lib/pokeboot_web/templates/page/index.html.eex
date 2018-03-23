@@ -9,7 +9,8 @@
 
     function enterInput(e) {
       const key = e.keyCode;
-        if (key === 13) {
+      const desc = document.querySelector("#starter-desc");
+        if (key === 13 && desc.innerText !== "") {
           joinGame();
         }
     }
@@ -54,7 +55,7 @@
 
 <div class="text-center m-5 p-5">
   <h1>Join a Battle</h1>
-  <p><input type="text" class="px-5" id="room-name"></p>
+  <p><input type="text" class="col-3" id="room-name"></p>
   <p><button type="button" class="btn btn-warning px-3">Random Match</button></p>
 
   <div class="m-5">
