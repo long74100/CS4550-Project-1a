@@ -79,8 +79,11 @@
   <h1>Trainer name</h1>
   <p><input type="text" class="col-3" id="trainer-name"></p>
   <br>
-  <p><button type="button" class="btn btn-warning px-3" id="join-game-button">Join Game</button></p>
-  <p><button type="button" class="btn btn-warning px-3">Random Match</button></p>
+  <div class="row">
+    <div class="col-5"><button type="button" class="btn btn-warning px-3" id="join-game-button">Join Game</button></div>
+    <div class="col-2"></div>
+    <div class="col-5"><button type="button" class="btn btn-warning px-3">Random Match</button></div>
+  </div>
   <div class="m-5">
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Mystic-643418365 -->
     <img src="https://img00.deviantart.net/97b1/i/2016/306/e/e/pokemon_go_team_mystic_by_fabledcreative-dan2osd.jpg"
