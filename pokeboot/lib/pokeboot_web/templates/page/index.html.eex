@@ -3,12 +3,12 @@
     function joinGame(e) {
       const roomName = document.querySelector("#room-name").value;
       const link = window.location.href + "battles/" + roomName
-      // window.trainer = document.querySelector("#trainer-name").value;
-      // window.starter = document.querySelector(".selected").id;
-      var someVarName = "value";
-      localStorage.setItem("bla", "bla");
+      const trainer = document.querySelector("#trainer-name").value;
+      const starter = document.querySelector(".selected").id;
+      localStorage.setItem("trainer", trainer);
+      localStorage.setItem("starter", starter);
       window.location.assign(link);
-      console.log(localStorage.getItem("bla"));
+      // window.localStorage.clear();
 
     }
 
@@ -75,10 +75,10 @@
 
   }, false);
 </script>
-<div id='team-alert'>
-</div>
-
 <div class="text-center p-5">
+  <div id='team-alert'>
+  </div>
+
   <div>
     <h1>Join a Battle</h1>
     <p><input type="text" class="col-3" id="room-name"></p>
@@ -104,9 +104,8 @@
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Instinct-643420942 -->
     <img src="https://img00.deviantart.net/04e0/i/2017/108/c/2/pokemon_go_team_instinct_by_fabledcreative-dan2qry.jpg"
       class="starter col-3" alt="yellow-starter" id="yellow-starter">
+
+    <p class="h2 mt-4" id="starter-desc"></p>
   </div>
 
-  <div>
-    <p class="h2" id="starter-desc"></p>
-  </div>
 </div>
