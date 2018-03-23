@@ -4,7 +4,7 @@
       const roomName = document.querySelector("#room-name").value;
       const link = window.location.href + "battles/" + roomName
       window.location.replace(link);
-      console.log("joining game...")
+      window.testname = "blablabla";
     }
 
     function enterInput(e) {

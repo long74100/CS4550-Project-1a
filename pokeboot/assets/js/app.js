@@ -28,9 +28,10 @@ function init() {
   let battle = document.querySelector('#battle');
 
   if (battle) {
-    let channel = socket.channel("battles:" + window.battleName, { trainerName: "bob", starter: "red" });
+    let channel = socket.channel("battles:" + window.battleName, { name: "bob" });
     run_pokeboot(battle, channel);
     console.log(window.battleName);
+    console.log(window.testname);
   }
 
 }
