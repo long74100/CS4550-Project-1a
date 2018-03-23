@@ -8,10 +8,7 @@ defmodule PokebootWeb.BattlesChannel do
       battle = (BattleRooms.load(name) || Battle.new())
               |> Battle.loadTrainer(payload)
 
-      IO.inspect battle
-      # IO.puts name
-      # IO.puts payload["trainerName"]
-      # IO.puts payload["starter"]
+      BattleRooms.save(name, battle)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}

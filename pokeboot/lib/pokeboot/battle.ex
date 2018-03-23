@@ -8,16 +8,23 @@ defmodule Pokeboot.Battle do
   end
 
   def loadTrainer(battle, payload) do
-    IO.inspect battle
-
-    case battle do
-      %{trainer1: {}, trainer2: _, turn: _, turns: _} ->
-        battle
-        |> Map.put(:trainer1, payload)
-      %{trainer1: _, trainer2: {}, turn: _, turns: _} ->
-        IO.puts "second empty"
-      _ ->
-        battle
+    newTrainer = payload["trainerName"]
+    if newTrainer == battle.trainer1["trainerName"]
+    || newTrainer == battle.trainer2["trainerName"] do
+      IO.puts "already in battle"
+      battle
+    else
+      case battle do
+        %{trainer1: {}, trainer2: _, turn: _, turns: _} ->
+          battle
+          |> Map.put(:trainer1, payload)
+        %{trainer1: _, trainer2: {}, turn: _, turns: _} ->
+          battle
+          |> Map.put(:trainer2, payload)
+        _ ->
+          battle
+      end
     end
+
   end
 end

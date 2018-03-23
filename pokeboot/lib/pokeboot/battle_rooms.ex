@@ -4,9 +4,9 @@ defmodule Pokeboot.BattleRooms do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
-  def save(name, game) do
+  def save(name, battle) do
     Agent.update __MODULE__, fn state ->
-      Map.put(state, name, game)
+      Map.put(state, name, battle)
     end
   end
 

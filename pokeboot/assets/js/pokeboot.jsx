@@ -29,7 +29,6 @@ class PokeBootBattle extends React.Component {
   }
 
   gotView(view) {
-    console.log("binded");
     this.setState(view.game);
   }
 
