@@ -17,7 +17,7 @@ defmodule PokebootWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    get "/battles/:battle", PageController, :battle
+    get "/battles/:battle", BattleController, :battle
 
   end
 

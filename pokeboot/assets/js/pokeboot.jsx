@@ -6,15 +6,6 @@ export default function run_pokeboot(root, channel) {
   ReactDOM.render(<PokeBootBattle channel={channel}/>, root);
 }
 
-// App state for MemroyGame is:
-// {
-//    letters: String    // the letters used for the game
-//    board: [{ value:x ,status:x }]          // the current board
-//    completed: String  // the letters(tiles) that have been completed
-//    activeTilePos: int // the position of the current active tile
-//    clicks: int        // the number of clicks so far
-// }
-
 class PokeBootBattle extends React.Component {
   constructor(props) {
     super(props);
