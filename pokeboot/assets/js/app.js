@@ -29,9 +29,10 @@ function init() {
   let battle = document.querySelector('#battle');
 
   if (battle) {
-    let channel = socket.channel("battles:" + window.battleName, { name: "bob" });
+    const trainer = sessionStorage.getItem("trainer");
+    const starter = sessionStorage.getItem("starter");
+    let channel = socket.channel("battles:" + window.battleName, { name: trainer, starter: starter });
     run_pokeboot(battle, channel);
-    console.log(localStorage.getItem("bla"))
 
   }
 

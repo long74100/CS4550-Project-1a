@@ -9,7 +9,10 @@ defmodule Pokeboot.Battle do
   end
 
   def loadTrainer(battle, payload) do
+    IO.inspect battle
+
     newTrainer = payload["name"]
+    IO.puts newTrainer
     if newTrainer == battle.trainer1.name
     || newTrainer == battle.trainer2.name do
       IO.puts "already in battle"
@@ -26,5 +29,7 @@ defmodule Pokeboot.Battle do
           battle
       end
     end
+
   end
+
 end

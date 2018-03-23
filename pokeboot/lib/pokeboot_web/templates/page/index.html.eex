@@ -5,8 +5,8 @@
       const link = window.location.href + "battles/" + roomName
       const trainer = document.querySelector("#trainer-name").value;
       const starter = document.querySelector(".selected").id;
-      localStorage.setItem("trainer", trainer);
-      localStorage.setItem("starter", starter);
+      sessionStorage.setItem("trainer", trainer);
+      sessionStorage.setItem("starter", starter);
       window.location.assign(link);
       // window.localStorage.clear();
 
