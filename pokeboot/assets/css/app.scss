@@ -1,0 +1,31 @@
+/* This file is for your main application css. */
+@import "bootstrap";
+
+/** Global **/
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Share Tech', sans-serif;
+  background: url("https://slot1-images.wikia.nocookie.net/__cb1469724667/common/skins/oasis/images/themes/sapphire.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  min-height: 100%;
+  overflow: hidden;
+
+}
+
+/** Lobby **/
+.starter {
+  transition: all .2s;
+}
+
+.starter:hover {
+  transform: scale(1.1);
+}
+
+.selected {
+  transform: scale(1.2);
+}

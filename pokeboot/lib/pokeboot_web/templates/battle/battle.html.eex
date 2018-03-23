@@ -1,0 +1,7 @@
+<script>
+  window.battleName = "<%= @battle %>";
+</script>
+<div id="battle">
+  <p>React app not loaded...</p>
+
+</div>

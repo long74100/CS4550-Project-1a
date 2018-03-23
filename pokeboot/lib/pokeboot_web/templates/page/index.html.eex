@@ -1,0 +1,101 @@
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function joinGame(e) {
+      const roomName = document.querySelector("#room-name").value;
+      const link = window.location.href + "battles/" + roomName
+      window.location.replace(link);
+      window.testname = "blablabla";
+    }
+
+    function enterInput() {
+      const desc = document.querySelector("#starter-desc");
+      if (desc.innerText !== "") {
+        joinGame();
+      } else {
+        document.querySelector("#team-alert").innerHTML = `
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        `
+      }
+    }
+
+    function enterKeyListenerListener(e) {
+      const key = e.keyCode;
+      const desc = document.querySelector("#starter-desc");
+      if (key === 13) {
+        enterInput()
+      }
+    }
+
+    function select(e) {
+      // remove previous selects
+      const starters = document.querySelectorAll(".starter");
+      for (let starter of starters) {
+        starter.classList.remove("selected");
+      }
+
+      const target = e.target;
+      const desc = document.querySelector("#starter-desc");
+      target.classList.add("selected");
+      console.log(target.id);
+      console.log(target.classList);
+
+      if (target.id === "blue-starter") {
+        desc.innerText = "Choose Blue";
+      } else if (target.id === "red-starter") {
+        desc.innerText = "Choose Red";
+      } else {
+        desc.innerText = "Choose Yellow";
+      }
+    }
+
+    const input = document.querySelector("#room-name");
+    const blue = document.querySelector("#blue-starter");
+    const red = document.querySelector("#red-starter");
+    const yellow = document.querySelector("#yellow-starter");
+    const joinGameButton = document.querySelector('#join-game-button');
+
+    input.focus();
+    input.select();
+    input.addEventListener("keypress", enterKeyListenerListener);
+    blue.addEventListener("click", select);
+    red.addEventListener("click", select);
+    yellow.addEventListener("click", select);
+    joinGameButton.addEventListener("click", enterInput);
+
+  }, false);
+</script>
+<div id='team-alert'>
+</div>
+
+<div class="text-center m-5 p-5">
+  <h1>Join a Battle</h1>
+  <p><input type="text" class="col-3" id="room-name"></p>
+  <br>
+  <h1>Trainer name</h1>
+  <p><input type="text" class="col-3" id="trainer-name"></p>
+  <br>
+  <p><button type="button" class="btn btn-warning px-3" id="join-game-button">Join Game</button></p>
+  <p><button type="button" class="btn btn-warning px-3">Random Match</button></p>
+  <div class="m-5">
+    <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Mystic-643418365 -->
+    <img src="https://img00.deviantart.net/97b1/i/2016/306/e/e/pokemon_go_team_mystic_by_fabledcreative-dan2osd.jpg"
+      class="starter col-3" alt="blue-starter" id="blue-starter">
+
+    <!-- https://www.deviantart.com/art/Pokemon-Team-Valor-643418921 -->
+    <img src="https://img00.deviantart.net/655d/i/2017/112/0/2/pokemon_team_valor_by_fabledcreative-dan2p7t.jpg"
+      class="starter col-3" alt="red-starter" id="red-starter">
+
+    <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Instinct-643420942 -->
+    <img src="https://img00.deviantart.net/04e0/i/2017/108/c/2/pokemon_go_team_instinct_by_fabledcreative-dan2qry.jpg"
+      class="starter col-3" alt="yellow-starter" id="yellow-starter">
+  </div>
+
+  <div>
+    <p class="h2" id="starter-desc"></p>
+  </div>
+</div>
