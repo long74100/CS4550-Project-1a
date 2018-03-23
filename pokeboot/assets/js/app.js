@@ -22,6 +22,7 @@ import socket from "./socket"
 import React from 'react';
 import ReactDOM from 'react-dom';
 import run_pokeboot from './pokeboot'
+import bootstrap from 'bootstrap';
 
 function init() {
   // Now that you are connected, you can join channels with a topic:
