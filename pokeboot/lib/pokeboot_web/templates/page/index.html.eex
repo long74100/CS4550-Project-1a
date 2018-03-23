@@ -3,13 +3,21 @@
     function joinGame(e) {
       const roomName = document.querySelector("#room-name").value;
       const link = window.location.href + "battles/" + roomName
-      window.location.replace(link);
-      window.testname = "blablabla";
+      // window.trainer = document.querySelector("#trainer-name").value;
+      // window.starter = document.querySelector(".selected").id;
+      var someVarName = "value";
+      localStorage.setItem("bla", "bla");
+      window.location.assign(link);
+      console.log(localStorage.getItem("bla"));
+
     }
 
     function enterInput() {
       const desc = document.querySelector("#starter-desc");
-      if (desc.innerText !== "") {
+      const room = document.querySelector("#room-name").value;
+      const name = document.querySelector("#trainer-name").value;
+
+      if (desc.innerText !== "" && room !== "" && name !== "") {
         joinGame();
       } else {
         document.querySelector("#team-alert").innerHTML = `
@@ -41,8 +49,6 @@
       const target = e.target;
       const desc = document.querySelector("#starter-desc");
       target.classList.add("selected");
-      console.log(target.id);
-      console.log(target.classList);
 
       if (target.id === "blue-starter") {
         desc.innerText = "Choose Blue";
@@ -72,19 +78,21 @@
 <div id='team-alert'>
 </div>
 
-<div class="text-center m-5 p-5">
-  <h1>Join a Battle</h1>
-  <p><input type="text" class="col-3" id="room-name"></p>
-  <br>
-  <h1>Trainer name</h1>
-  <p><input type="text" class="col-3" id="trainer-name"></p>
-  <br>
-  <div class="row">
-    <div class="col-5"><button type="button" class="btn btn-warning px-3" id="join-game-button">Join Game</button></div>
-    <div class="col-2"></div>
-    <div class="col-5"><button type="button" class="btn btn-warning px-3">Random Match</button></div>
+<div class="text-center p-5">
+  <div>
+    <h1>Join a Battle</h1>
+    <p><input type="text" class="col-3" id="room-name"></p>
   </div>
-  <div class="m-5">
+
+  <div>
+    <h1>Trainer name</h1>
+    <p><input type="text" class="col-3" id="trainer-name"></p>
+  </div>
+
+  <button type="button" class="btn btn-warning mt-3" id="join-game-button">Join Game</button>
+  <button type="button" class="btn btn-warning mt-3">Random Match</button>
+
+  <div class="m-5 p-3">
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Mystic-643418365 -->
     <img src="https://img00.deviantart.net/97b1/i/2016/306/e/e/pokemon_go_team_mystic_by_fabledcreative-dan2osd.jpg"
       class="starter col-3" alt="blue-starter" id="blue-starter">

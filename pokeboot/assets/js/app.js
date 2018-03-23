@@ -31,8 +31,8 @@ function init() {
   if (battle) {
     let channel = socket.channel("battles:" + window.battleName, { name: "bob" });
     run_pokeboot(battle, channel);
-    console.log(window.battleName);
-    console.log(window.testname);
+    console.log(localStorage.getItem("bla"))
+
   }
 
 }

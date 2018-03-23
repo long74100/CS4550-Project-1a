@@ -26,6 +26,5 @@ defmodule Pokeboot.Battle do
           battle
       end
     end
-
   end
 end
