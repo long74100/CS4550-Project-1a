@@ -29,3 +29,24 @@ body {
 .selected {
   transform: scale(1.1);
 }
+
+.hp-bar-filler {
+  background-color: #fdf9da !important;
+}
+
+.hp-bar-bottom {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
+
+.all-cards {
+  position: absolute;
+  top: 32%;
+}
+
+.wait {
+  position: absolute;
+  top: 200px;
+  width: 100%;
+}

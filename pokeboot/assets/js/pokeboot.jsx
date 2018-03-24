@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Wait } from './Wait';
-import { HpBar } from './HpBar';
-import { Move } from './Move';
+import { Start } from './Start';
 
 export default function run_pokeboot(root, channel) {
   ReactDOM.render(<PokeBootBattle channel={channel} />, root);
@@ -28,29 +27,18 @@ class PokeBootBattle extends React.Component {
   render() {
     let fakeData = {
       waitProps: { userName: "Ash" },
-      hpBarProps: { userName: "Ash", maxHp: 150, currentHp: 20, isOpponent: false },
+      trainer: { userName: "Ash", maxHp: 150, currentHp: 20, isOpponent: false },
+      opponent: { userName: "Gary", maxHp: 150, currentHp: 40, isOpponent: true },
       moveProps: {
         type: 'ATTACK',
         typeId: 1,
         value: 10
-      }
+      },
     };
+    const gameStarted = !fakeData.opponent.userName == "";
     return (
       <div>
-        <h1>Welcome, trainer</h1>
-        {/* <Wait {...this.props.Wait} /> */}
-        {/* <HpBar {...this.props.hpBarProps} /> */}
-        <div><Wait {...fakeData.waitProps} /></div>
-        <div><HpBar {...fakeData.hpBarProps} /></div>
-        <div className="row">
-          <Move {...fakeData.moveProps} />
-          <Move {...fakeData.moveProps} />
-          <Move {...fakeData.moveProps} />
-          <Move {...fakeData.moveProps} />
-          <Move {...fakeData.moveProps} />
-          <Move {...fakeData.moveProps} />
-        </div>
-        <div><HpBar {...fakeData.hpBarProps} /></div>
+        {gameStarted ? <Start {...fakeData} /> : <Wait {...fakeData.waitProps} />}
       </div>
     );
   }
