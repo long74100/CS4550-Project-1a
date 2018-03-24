@@ -7,7 +7,7 @@ import {
 
 export function Move({ type, typeId, value }) {
     return (
-        <div className="col-3 text-center">
+        <div className="col-lg-3 text-center text-dark">
             <Card>
                 <CardBody>
                     <CardTitle>{type}</CardTitle>

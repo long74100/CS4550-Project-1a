@@ -28,7 +28,7 @@ class PokeBootBattle extends React.Component {
   render() {
     let fakeData = {
       waitProps: { userName: "Ash" },
-      hpBarProps: { maxHp: 150, currentHp: 20, isOpponent: false },
+      hpBarProps: { userName: "Ash", maxHp: 150, currentHp: 20, isOpponent: false },
       moveProps: {
         type: 'ATTACK',
         typeId: 1,
@@ -41,7 +41,7 @@ class PokeBootBattle extends React.Component {
         {/* <Wait {...this.props.Wait} /> */}
         {/* <HpBar {...this.props.hpBarProps} /> */}
         <div><Wait {...fakeData.waitProps} /></div>
-        <div class="d-block p-2 bg-primary text-white"><HpBar {...fakeData.hpBarProps} /></div>
+        <div><HpBar {...fakeData.hpBarProps} /></div>
         <div><Move {...fakeData.moveProps} /></div>
       </div>
     );
