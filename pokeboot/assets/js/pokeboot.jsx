@@ -42,7 +42,15 @@ class PokeBootBattle extends React.Component {
         {/* <HpBar {...this.props.hpBarProps} /> */}
         <div><Wait {...fakeData.waitProps} /></div>
         <div><HpBar {...fakeData.hpBarProps} /></div>
-        <div><Move {...fakeData.moveProps} /></div>
+        <div className="row">
+          <Move {...fakeData.moveProps} />
+          <Move {...fakeData.moveProps} />
+          <Move {...fakeData.moveProps} />
+          <Move {...fakeData.moveProps} />
+          <Move {...fakeData.moveProps} />
+          <Move {...fakeData.moveProps} />
+        </div>
+        <div><HpBar {...fakeData.hpBarProps} /></div>
       </div>
     );
   }
