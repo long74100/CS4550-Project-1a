@@ -1,5 +1,7 @@
 defmodule Pokeboot.Battle do
   alias Pokeboot.Trainer
+  alias Pokeboot.Cards
+
   def new() do
     %{  trainer1: %Trainer{},
         trainer2: %Trainer{},
@@ -18,17 +20,22 @@ defmodule Pokeboot.Battle do
       battle
     else
       case battle do
-        %{trainer1: %Trainer{name: ""}, trainer2: _, turn: _, turns: _} ->
+        %{trainer1: %Trainer{name: ""}} ->
           battle
           |> Map.put(:trainer1, %Trainer{ name: payload["name"], starter: payload["starter"] })
-        %{trainer1: _, trainer2: %{ name: ""}, turn: _, turns: _} ->
+          |> (fn x -> Map.put(x, :trainer1, (x.trainer1
+                                            |> Map.put(:cards, Cards.generateHand(x.trainer1.starter)))) end).()
+
+        %{trainer1: _, trainer2: %{ name: ""}} ->
           battle
           |> Map.put(:trainer2, %Trainer{ name: payload["name"], starter: payload["starter"] })
+          |> (fn x -> Map.put(x, :trainer2, (x.trainer2
+                                            |> Map.put(:cards, Cards.generateHand(x.trainer2.starter)))) end).()
+
         _ ->
           battle
       end
     end
 
   end
-
 end
