@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Progress } from 'reactstrap';
 
 export function HpBar({ currentHp, maxHp, isOpponent }) {
-    const currentClasses = isOpponent ? "float-left" : "float-right";
+    let currentClasses = isOpponent ? "float-left" : "float-right";
     return (
         <div>
             <Progress value={currentHp * 100 / maxHp} />
-            <span className={currentClasses}>{currentHp} / {maxHp}</span>
+            <div className={currentClasses}>{currentHp} / {maxHp}</div>
         </div>
     );
 }
