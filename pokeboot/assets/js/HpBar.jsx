@@ -11,7 +11,7 @@ export function HpBar({ userName, currentHp, maxHp, isOpponent }) {
         <div className="row">
             <div className={currentClasses}>
                 <span>{userName}</span>
-                <Progress value={currentHp * 100 / maxHp} />
+                <Progress className="hp-bar-empty" color="33e737" value={currentHp * 100 / maxHp} />
                 <div className="text-right">{currentHp} / {maxHp}</div>
             </div>
         </div>
