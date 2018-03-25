@@ -5,14 +5,12 @@ defmodule PokebootWeb.BattlesChannel do
 
   def join("battles:" <> name, payload, socket) do
     if authorized?(payload) do
-      battle =
-        (BattleRooms.load(name) || Battle.new())
-        |> Battle.loadTrainer(payload)
+      battle = (BattleRooms.load(name) || Battle.new())
+               |> Battle.loadTrainer(payload)
 
-      socket =
-        socket
-        |> assign(:battle, battle)
-        |> assign(:name, name)
+      socket = socket
+               |> assign(:battle, battle)
+               |> assign(:name, name)
 
       BattleRooms.save(name, battle)
 
@@ -43,6 +41,9 @@ defmodule PokebootWeb.BattlesChannel do
       |> Battle.move(payload)
 
     socket = assign(socket, :battle, battle)
+    BattleRooms.save(socket.assigns[:name], battle)
+
+    send(self(), {"informAll", Battle.client_view(battle)})
 
     {:reply, {:ok, %{"battle" => Battle.client_view(battle)}}, socket}
   end

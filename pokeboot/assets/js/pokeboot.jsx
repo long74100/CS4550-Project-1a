@@ -40,7 +40,7 @@ class PokeBootBattle extends React.Component {
     }
 
     const state = this.state;
-
+    console.log(state)
     const gameStarted = state.opponent.name != "";
     return (
       <div>

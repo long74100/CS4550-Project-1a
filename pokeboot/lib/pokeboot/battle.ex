@@ -3,12 +3,12 @@ defmodule Pokeboot.Battle do
   alias Pokeboot.Cards
 
   def new() do
-    %{trainer1: %Trainer{}, trainer2: %Trainer{}, turn: 0, turns: 0}
+    %{trainer1: %Trainer{}, trainer2: %Trainer{}, turn: 0, turns: 0, gameOver: FALSE}
   end
 
   def client_view(battle) do
     opponentInfo = battle.trainer2
-    %{trainer: battle.trainer1, opponent: battle.trainer2, turn: battle.turn, turns: battle.turns}
+    %{trainer: battle.trainer1, opponent: battle.trainer2, turn: battle.turn, turns: battle.turns, gameOver: battle.gameOver}
   end
 
   def loadTrainer(battle, payload) do
@@ -55,11 +55,13 @@ defmodule Pokeboot.Battle do
     cardIndex = payload["cardIndex"]
 
     if trainerName == battle.trainer1.name do
-      key = :trainer1
+      trainerKey = :trainer1
+      opponentKey = :trainer2
       trainer = battle.trainer1
       opponent = battle.trainer2
     else
-      key = :trainer2
+      trainerKey = :trainer2
+      opponentKey = :trainer1
       trainer = battle.trainer2
       opponent = battle.trainer1
     end
@@ -69,35 +71,50 @@ defmodule Pokeboot.Battle do
 
     if cardUsed.id == 1 do
       trainer = trainer |> useCardOn(cardUsed)
-      IO.inspect trainer
     else
       opponent = opponent |> useCardOn(cardUsed)
-      IO.puts "--------------------"
-      IO.inspect opponent
-      IO.puts "--------------------"
-
     end
 
-
+    battle = battle
+    |> Map.put(trainerKey, trainer |> Map.put(:cards, cards))
+    |> Map.put(opponentKey, opponent)
+    |> generateTurn()
+    IO.puts "----------after ttack------------------"
+    IO.inspect battle
+    IO.puts "----------after ttack------------------"
 
     battle
   end
 
   def useCardOn(trainer, card) do
     hp = trainer.health
-    if (card.id == 1) do
-      hp = trainer.health + card.value
-      if hp > trainer.maxHealth do
-        hp = trainer.maxHealth
-      end
+    status = trainer.status
+
+    case id = card.id do
+      1 -> hp = trainer.health + card.value
+      id when id in [0, 3] -> hp = trainer.health - card.value
+      _ -> status = status
     end
 
-    if (card.id == 0 || card.id == 3) do
-      hp = trainer.health - card.value
+    if hp > trainer.maxHealth do
+      hp = trainer.maxHealth
     end
+
     trainer
     |> Map.put(:health, hp)
+    |> Map.put(:status, status)
+  end
 
+  def generateTurn(battle) do
+    newBattle = battle
+    if battle.trainer1.health == 0 || battle.trainer2.health == 0 do
+      newBattle = battle
+                  |> Map.put(:gameOver, TRUE)
+    end
+
+
+
+    newBattle
   end
 
 
