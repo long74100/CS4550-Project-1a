@@ -19,8 +19,15 @@ class PokeBootBattle extends React.Component {
       .receive("ok", this.gotView.bind(this))
       .receive("error", resp => { console.log("Unable to join", resp) });
 
+    console.log(this.state)
+    console.log("---------------after join--------------")
+
+
     this.channel.push("attack", { trainer: this.channel.params.name, card: 1 })
       .receive("ok", this.gotView.bind(this));
+
+    console.log("---------------after attack--------------")
+    console.log(this.state)
 
     this.gotView = this.gotView.bind(this);
   }
