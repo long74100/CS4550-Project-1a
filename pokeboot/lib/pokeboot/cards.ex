@@ -3,12 +3,12 @@ defmodule Pokeboot.Cards do
 
   def generateHand(starter) do
     cards = [
-      %Card{type: "Attack", id: 1, value: 10},
-      %Card{type: "Heal", id: 2, value: 20},
-      %Card{type: "S. Atk.", id: 3, value: 15},
-      %Card{type: "Burn", id: 4, value: 10, turns: 2},
-      %Card{type: "Freeze", id: 5, value: 0, turns: 2},
-      %Card{type: "Stun", id: 6, value: 1}
+      %Card{type: "Attack", id: 0, value: 10},
+      %Card{type: "Heal", id: 1, value: 20},
+      %Card{type: "S. Atk.", id: 2, value: 15},
+      %Card{type: "Burn", id: 3, value: 10, turns: 2},
+      %Card{type: "Freeze", id: 4, value: 0, turns: 2},
+      %Card{type: "Stun", id: 5, value: 1}
     ]
 
     if starter == "blue-starter" do

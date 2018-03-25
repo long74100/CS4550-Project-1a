@@ -28,7 +28,6 @@ defmodule PokebootWeb.BattlesChannel do
 
   def handle_info({"informAll", client_battle}, socket) do
     broadcast!(socket, "refresh", client_battle)
-    IO.puts("this happened ----------------------------------------")
     {:noreply, socket}
   end
 
@@ -38,10 +37,10 @@ defmodule PokebootWeb.BattlesChannel do
     {:reply, {:ok, payload}, socket}
   end
 
-  def handle_in("attack", payload, socket) do
+  def handle_in("move", payload, socket) do
     battle =
       socket.assigns[:battle]
-      |> Battle.attack(payload)
+      |> Battle.move(payload)
 
     socket = assign(socket, :battle, battle)
 

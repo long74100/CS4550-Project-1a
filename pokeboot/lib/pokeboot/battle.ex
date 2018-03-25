@@ -12,52 +12,67 @@ defmodule Pokeboot.Battle do
   end
 
   def loadTrainer(battle, payload) do
+    IO.inspect battle
     trainer = payload["name"]
-
+    starter = payload["starter"]
     if trainer == battle.trainer1.name || trainer == battle.trainer2.name do
       battle
     else
       case battle do
         %{trainer1: %Trainer{name: ""}} ->
           battle
-          |> Map.put(:trainer1, %Trainer{name: payload["name"], starter: payload["starter"]})
-          |> (fn x ->
-                Map.put(
-                  x,
-                  :trainer1,
-                  x.trainer1
-                  |> Map.put(:cards, Cards.generateHand(x.trainer1.starter))
-                )
-              end).()
+          |> Map.put(:trainer1, %Trainer{name: trainer, starter: starter})
+          |> (fn battle -> generateTrainer(battle, :trainer1, battle.trainer1, battle.trainer1.starter) end).()
 
         %{trainer1: _, trainer2: %{name: ""}} ->
           battle
-          |> Map.put(:trainer2, %Trainer{name: payload["name"], starter: payload["starter"]})
-          |> (fn x ->
-                Map.put(
-                  x,
-                  :trainer2,
-                  x.trainer2
-                  |> Map.put(:cards, Cards.generateHand(x.trainer2.starter))
-                )
-              end).()
-
+          |> Map.put(:trainer2, %Trainer{name: trainer, starter: starter})
+          |> (fn battle -> generateTrainer(battle, :trainer2, battle.trainer2, battle.trainer2.starter) end).()
+          |> startBattle(Enum.random(0..1));
         _ ->
           battle
       end
     end
   end
 
-  def attack(battle, payload) do
-    trainerName = payload["trainer"]
-    cardId = payload["card"]
+  def generateTrainer(battle, key, trainer, starter) do
+    battle
+    |> Map.put(key, trainer
+                    |> Map.put(:cards, Cards.generateHand(starter)))
+  end
+
+  def startBattle(battle, 0) do
+    battle
+    |> Map.put(:turn, 0)
+  end
+  def startBattle(battle, 1) do
+    battle
+    |> Map.put(:turn, 1)
+  end
+
+  def move(battle, payload) do
+    trainerName = payload["trainerName"]
+    cardIndex = payload["cardIndex"]
 
     if trainerName == battle.trainer1.name do
+      key = :trainer1
       trainer = battle.trainer1
+      opponent = battle.trainer2
     else
+      key = :trainer2
       trainer = battle.trainer2
+      opponent = battle.trainer1
     end
+
+    {cardUsed, cards} = trainer.cards
+                        |> List.pop_at(cardIndex)
+
+  
+    IO.inspect cardUsed
+    IO.inspect cards
 
     battle
   end
+
+
 end
