@@ -10,6 +10,14 @@ defmodule Pokeboot.Battle do
       }
   end
 
+  def client_view(battle) do
+  %{  trainer: battle.trainer1,
+      opponent: battle.trainer2,
+      turn: battle.turn,
+      turns: battle.turns
+    }
+end
+
   def loadTrainer(battle, payload) do
     IO.inspect battle
 
@@ -38,4 +46,14 @@ defmodule Pokeboot.Battle do
     end
 
   end
+
+  def attack(battle, payload) do
+    trainer = payload["trainer"]
+    cardId = payload["card"]
+
+
+
+  end
+
+
 end

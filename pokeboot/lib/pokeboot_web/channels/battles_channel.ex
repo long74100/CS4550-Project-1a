@@ -9,7 +9,7 @@ defmodule PokebootWeb.BattlesChannel do
               |> Battle.loadTrainer(payload)
 
       BattleRooms.save(name, battle)
-      {:ok, socket}
+      {:ok, %{"join" => name, "battle" => Battle.client_view(battle)}, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
