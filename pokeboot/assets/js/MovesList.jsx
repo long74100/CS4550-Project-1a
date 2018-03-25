@@ -8,10 +8,12 @@ export function MovesList({ moves, isEnabled }) {
         moveDisplay.push(<div key={6} className="col-xs-1 col-sm-1" />)
     }
     moves.forEach((move, index) => moveDisplay.push(<Move key={index} {...move} isEnabled={isEnabled} />))
+    const animateClasses = isEnabled ? "animated infinite bounce slow-bounce" : ""
+    const displayRowClasses = animateClasses + " row"
     return (
         <Fragment>
             <div className="col-12 text-center"><h3>{isEnabled ? "Your Turn" : "Opponents Turn"}</h3></div>
-            <div className="row animated infinite bounce slow-bounce">{moveDisplay}</div>
+            <div className={displayRowClasses}>{moveDisplay}</div>
         </Fragment>
     )
 }
