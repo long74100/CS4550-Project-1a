@@ -5,12 +5,15 @@ defmodule PokebootWeb.BattlesChannel do
 
   def join("battles:" <> name, payload, socket) do
     if authorized?(payload) do
-      battle = (BattleRooms.load(name) || Battle.new())
-              |> Battle.loadTrainer(payload)
+      battle =
+        (BattleRooms.load(name) || Battle.new())
+        |> Battle.loadTrainer(payload)
 
-      socket = socket
-              |> assign(:battle, battle)
-              |> assign(:name, name)
+      socket =
+        socket
+        |> assign(:battle, battle)
+        |> assign(:name, name)
+
       BattleRooms.save(name, battle)
 
       client_battle = Battle.client_view(battle)
@@ -34,7 +37,6 @@ defmodule PokebootWeb.BattlesChannel do
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
   end
-
 
   def handle_in("attack", payload, socket) do
     battle =
