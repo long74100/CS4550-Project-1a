@@ -58,8 +58,5 @@ defmodule Pokeboot.Battle do
     end
 
     battle
-    |> Map.put(:trainer1, %Trainer{})
   end
-
-
 end
