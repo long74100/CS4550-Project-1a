@@ -56,9 +56,9 @@ defmodule Pokeboot.Battle do
     else
       trainer = battle.trainer2
     end
-    IO.puts "--------------"
+    IO.puts "---------------"
     IO.inspect trainer
-    IO.puts "--------------"
+    IO.puts "---------------"
 
     battle
   end

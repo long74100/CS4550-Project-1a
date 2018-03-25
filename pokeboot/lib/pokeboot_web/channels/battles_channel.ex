@@ -30,9 +30,6 @@ defmodule PokebootWeb.BattlesChannel do
              |> Battle.attack(payload)
 
     socket = assign(socket, :battle, battle)
-    IO.puts "-------battle----"
-    IO.inspect socket.assigns[:battle]
-    IO.puts "-------battle----"
     {:reply, {:ok, %{ "battle" => Battle.client_view(battle)}}, socket}
   end
 
