@@ -67,11 +67,37 @@ defmodule Pokeboot.Battle do
     {cardUsed, cards} = trainer.cards
                         |> List.pop_at(cardIndex)
 
-  
-    IO.inspect cardUsed
-    IO.inspect cards
+    if cardUsed.id == 1 do
+      trainer = trainer |> useCardOn(cardUsed)
+      IO.inspect trainer
+    else
+      opponent = opponent |> useCardOn(cardUsed)
+      IO.puts "--------------------"
+      IO.inspect opponent
+      IO.puts "--------------------"
+
+    end
+
+
 
     battle
+  end
+
+  def useCardOn(trainer, card) do
+    hp = trainer.health
+    if (card.id == 1) do
+      hp = trainer.health + card.value
+      if hp > trainer.maxHealth do
+        hp = trainer.maxHealth
+      end
+    end
+
+    if (card.id == 0 || card.id == 3) do
+      hp = trainer.health - card.value
+    end
+    trainer
+    |> Map.put(:health, hp)
+
   end
 
 
