@@ -11,39 +11,36 @@ class PokeBootBattle extends React.Component {
   constructor(props) {
     super(props);
     this.channel = props.channel;
-    this.state = {};
+    this.state = {
+      isLoaded: false,
+    };
 
     this.channel.join()
       .receive("ok", this.gotView.bind(this))
       .receive("error", resp => { console.log("Unable to join", resp) });
 
-    this.channel.push("attack", {trainer: this.channel.params.name, card: 1})
+    this.channel.push("attack", { trainer: this.channel.params.name, card: 1 })
       .receive("ok", this.gotView.bind(this));
 
     this.gotView = this.gotView.bind(this);
   }
 
   gotView(view) {
-    console.log(view.battle);
     this.setState(view.battle);
-
+    this.setState({ isLoaded: true })
   }
 
   render() {
-    let fakeData = {
-      waitProps: { userName: "Ash" },
-      trainer: { userName: "Ash", maxHp: 150, currentHp: 20, isOpponent: false },
-      opponent: { userName: "Gary", maxHp: 150, currentHp: 40, isOpponent: true },
-      moveProps: {
-        type: 'ATTACK',
-        typeId: 1,
-        value: 10
-      },
-    };
-    const gameStarted = !fakeData.opponent.userName == "";
+    if (!this.state.isLoaded) {
+      return (<div><h1>Loading Game!</h1></div>);
+    }
+
+    const state = this.state;
+
+    const gameStarted = state.opponent.name != "";
     return (
       <div>
-        {gameStarted ? <Start {...fakeData} /> : <Wait {...fakeData.waitProps} />}
+        {gameStarted ? <Start {...state} /> : <Wait userName={state.trainer.name} />}
       </div>
     );
   }

@@ -2,27 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HpBar } from './HpBar';
 import { Move } from './Move';
+import { MovesList } from './MovesList';
 
-export function Start({ opponent, moveProps, trainer }) {
+export function Start({ opponent, trainer }) {
+    const trainerName = sessionStorage.getItem("trainer");
+    const displayCards = trainerName == trainer.name ? trainer.cards : opponent.cards
+    const opponentProps = trainerName == trainer.name ? opponent : trainer
+    const trainerProps = trainerName == trainer.name ? trainer : opponent
     return (
         <div>
-            <HpBar {...opponent} />
+            <HpBar isOpponent={true} {...opponentProps} />
             <div className="row all-cards">
-                <Move {...moveProps} />
-                <Move {...moveProps} />
-                <Move {...moveProps} />
-                <Move {...moveProps} />
-                <Move {...moveProps} />
-                <Move {...moveProps} />
+                <MovesList moves={displayCards} />
             </div>
-            <HpBar {...trainer} />
+            <HpBar isOpponent={false} {...trainerProps} />
         </div>
     );
 }
 
 Start.propTypes = {
     opponent: PropTypes.shape(HpBar.propTypes).isRequired,
-    moveProps: PropTypes.shape(Move.propTypes).isRequired,
     trainer: PropTypes.shape(HpBar.propTypes).isRequired,
-
 };
