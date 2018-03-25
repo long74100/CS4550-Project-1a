@@ -11,12 +11,13 @@ defmodule Pokeboot.Battle do
   end
 
   def client_view(battle) do
-  %{  trainer: battle.trainer1,
-      opponent: battle.trainer2,
-      turn: battle.turn,
-      turns: battle.turns
-    }
-end
+    opponentInfo = battle.trainer2
+    %{  trainer: battle.trainer1,
+        opponent: battle.trainer2,
+        turn: battle.turn,
+        turns: battle.turns
+      }
+  end
 
   def loadTrainer(battle, payload) do
     IO.inspect battle
@@ -39,7 +40,6 @@ end
           |> Map.put(:trainer2, %Trainer{ name: payload["name"], starter: payload["starter"] })
           |> (fn x -> Map.put(x, :trainer2, (x.trainer2
                                             |> Map.put(:cards, Cards.generateHand(x.trainer2.starter)))) end).()
-
         _ ->
           battle
       end
@@ -48,11 +48,19 @@ end
   end
 
   def attack(battle, payload) do
-    trainer = payload["trainer"]
+    trainerName = payload["trainer"]
     cardId = payload["card"]
 
+    if trainerName == battle.trainer1.name do
+      trainer = battle.trainer1
+    else
+      trainer = battle.trainer2
+    end
+    IO.puts "--------------"
+    IO.inspect trainer
+    IO.puts "--------------"
 
-
+    battle
   end
 
 

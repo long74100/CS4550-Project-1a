@@ -8,6 +8,9 @@ defmodule PokebootWeb.BattlesChannel do
       battle = (BattleRooms.load(name) || Battle.new())
               |> Battle.loadTrainer(payload)
 
+      socket = socket
+              |> assign(:battle, battle)
+              |> assign(:name, name)
       BattleRooms.save(name, battle)
       {:ok, %{"join" => name, "battle" => Battle.client_view(battle)}, socket}
     else
@@ -20,6 +23,19 @@ defmodule PokebootWeb.BattlesChannel do
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
   end
+
+  def handle_in("attack", payload, socket) do
+
+    battle = socket.assigns[:battle]
+             |> Battle.attack(payload)
+
+    socket = assign(socket, :battle, battle)
+    IO.puts "-------battle----"
+    IO.inspect socket.assigns[:battle]
+    IO.puts "-------battle----"
+    {:reply, {:ok, %{ "battle" => Battle.client_view(battle)}}, socket}
+  end
+
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (battles:lobby).
