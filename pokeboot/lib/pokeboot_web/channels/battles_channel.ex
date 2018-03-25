@@ -44,7 +44,6 @@ defmodule PokebootWeb.BattlesChannel do
       |> Battle.attack(payload)
 
     socket = assign(socket, :battle, battle)
-    broadcast!(socket, "refresh", battle)
 
     {:reply, {:ok, %{"battle" => Battle.client_view(battle)}}, socket}
   end

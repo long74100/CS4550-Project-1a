@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Progress } from 'reactstrap';
 
 export function HpBar({ name, health, maxHealth, isOpponent }) {
-    const smartClasses = isOpponent ? "" : "offset-7 hp-bar-bottom";
+    const smartClasses = isOpponent ? "hp-bar-top" : "offset-7 hp-bar-bottom";
     const regularClasses = "col-5 border border-dark p-2 bg-white rounded text-dark hp-bar-filler";
     const currentClasses = smartClasses + " " + regularClasses;
 
