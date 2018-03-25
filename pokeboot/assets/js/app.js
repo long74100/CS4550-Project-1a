@@ -31,9 +31,11 @@ function init() {
   if (battle) {
     const trainer = sessionStorage.getItem("trainer");
     const starter = sessionStorage.getItem("starter");
+    if (trainer === null) {
+      window.location.replace("/");
+    }
     let channel = socket.channel("battles:" + window.battleName, { name: trainer, starter: starter });
     run_pokeboot(battle, channel);
-
   }
 
 }
