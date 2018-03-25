@@ -54,30 +54,27 @@ defmodule Pokeboot.Battle do
     trainerName = payload["trainerName"]
     cardIndex = payload["cardIndex"]
 
-    if trainerName == battle.trainer1.name do
-      trainerKey = :trainer1
-      opponentKey = :trainer2
-      trainer = battle.trainer1
-      opponent = battle.trainer2
-    else
-      trainerKey = :trainer2
-      opponentKey = :trainer1
-      trainer = battle.trainer2
-      opponent = battle.trainer1
-    end
+    {trainerKey, opponentKey, trainer, opponent} =
+        if trainerName == battle.trainer1.name do
+          {:trainer1, :trainer2, battle.trainer1, battle.trainer2}
+        else
+          {:trainer2, :trainer1, battle.trainer2, battle.trainer1}
+        end
 
     {cardUsed, cards} = trainer.cards
                         |> List.pop_at(cardIndex)
 
+    {newTrainer, newOpponent} =
+
     if cardUsed.id == 1 do
-      trainer = trainer |> useCardOn(cardUsed)
+      {trainer |> useCardOn(cardUsed), opponent}
     else
-      opponent = opponent |> useCardOn(cardUsed)
+      {trainer, opponent |> useCardOn(cardUsed)}
     end
 
     battle = battle
-    |> Map.put(trainerKey, trainer |> Map.put(:cards, cards))
-    |> Map.put(opponentKey, opponent)
+    |> Map.put(trainerKey, newTrainer |> Map.put(:cards, cards))
+    |> Map.put(opponentKey, newOpponent)
     |> generateTurn()
     IO.puts "----------after ttack------------------"
     IO.inspect battle
@@ -87,18 +84,13 @@ defmodule Pokeboot.Battle do
   end
 
   def useCardOn(trainer, card) do
-    hp = trainer.health
-    status = trainer.status
 
-    case id = card.id do
-      1 -> hp = trainer.health + card.value
-      id when id in [0, 3] -> hp = trainer.health - card.value
-      _ -> status = status
-    end
-
-    if hp > trainer.maxHealth do
-      hp = trainer.maxHealth
-    end
+    {hp, status} =
+      case id = card.id do
+        1 -> {(trainer.health + card.value) |> checkHp(trainer.maxHealth), trainer.status}
+        id when id in [0, 3] -> {trainer.health - card.value, trainer.status}
+        _ -> {trainer.health, trainer.status ++ [card]}
+      end
 
     trainer
     |> Map.put(:health, hp)
@@ -106,15 +98,23 @@ defmodule Pokeboot.Battle do
   end
 
   def generateTurn(battle) do
-    newBattle = battle
-    if battle.trainer1.health == 0 || battle.trainer2.health == 0 do
-      newBattle = battle
-                  |> Map.put(:gameOver, TRUE)
-    end
-
-
+    newBattle =
+      if battle.trainer1.health == 0 || battle.trainer2.health == 0 do
+        battle
+        |> Map.put(:gameOver, TRUE)
+      else
+        battle
+      end
 
     newBattle
+  end
+
+  def checkHp(hp, maxHp) do
+    if hp > maxHp do
+      maxHp
+    else
+      hp
+    end
   end
 
 

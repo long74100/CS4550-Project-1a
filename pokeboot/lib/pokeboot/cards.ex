@@ -13,35 +13,46 @@ defmodule Pokeboot.Cards do
 
     if starter == "blue-starter" do
       1..6
-      |> Enum.map(fn x -> generateCard(Enum.random(0..100), cards) end)
+      |> Enum.map(fn x -> generateCard(Enum.random(0..100), cards, starter) end)
     else
       1..5
-      |> Enum.map(fn x -> generateCard(Enum.random(0..100), cards) end)
+      |> Enum.map(fn x -> generateCard(Enum.random(0..100), cards, starter) end)
     end
   end
 
-  def generateCard(rand, cards) when rand in 1..70 do
+  def generateCard(rand, cards, starter) when rand in 1..45 do
     cards
     |> Enum.at(0)
+    |> multiplier(starter)
   end
 
-  def generateCard(rand, cards) when rand in 71..90 do
+  def generateCard(rand, cards, _) when rand in 46..55 do
     cards
     |> Enum.at(1)
   end
 
-  def generateCard(rand, cards) when rand in 91..93 do
+  def generateCard(rand, cards, starter) when rand in 56..76 do
     cards
     |> Enum.at(2)
+    |> multiplier(starter)
   end
 
-  def generateCard(rand, cards) when rand in 91..93 do
+  def generateCard(rand, cards, _) when rand in 77..84 do
     cards
     |> Enum.at(3)
   end
 
-  def generateCard(rand, cards) do
+  def generateCard(rand, cards, _) when rand in 85..92 do
     cards
     |> Enum.at(4)
+  end
+
+  def generateCard(_, cards, _) do
+    cards
+    |> Enum.at(5)
+  end
+
+  def multiplier(card, starter) do
+    card
   end
 end
