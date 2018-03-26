@@ -50,7 +50,6 @@ defmodule Pokeboot.Battle do
   end
 
   def move(battle, payload) do
-    IO.inspect battle
     trainerName = payload["trainerName"]
     cardIndex = payload["cardIndex"]
 
@@ -81,7 +80,7 @@ defmodule Pokeboot.Battle do
     {hp, status} =
       case id = card.id do
         1 -> { checkHp(trainer.health + card.value, trainer.maxHealth), trainer.status}
-        id when id in [0, 3] -> {trainer.health - card.value, trainer.status}
+        id when id in [0, 2] -> {trainer.health - card.value, trainer.status}
         _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end
 
@@ -122,12 +121,18 @@ defmodule Pokeboot.Battle do
 
   def checkStatusHelp(battle, trainer, trainerKey, ifSkipTurn) do
     %{"Stun" => stun, "Burn" => burn, "Freeze" => freeze} = trainer.status
-
+    # IO.puts "before status --------------------"
+    # IO.inspect trainer
+    # IO.puts "------------------------"
+    #
     newTrainer =
       trainer
       |> applyBurn(burn)
       |> applyStun(stun)
-    IO.inspect newTrainer
+
+    # IO.puts "after status --------------------"
+    # IO.inspect newTrainer
+    # IO.puts "------------------------"
 
     if stun > 0 do
       battle
@@ -151,7 +156,7 @@ defmodule Pokeboot.Battle do
   def applyStun(trainer, stun) do
     if stun > 0 do
       trainer
-      |> Map.put(:status, trainer.status |> Map.put("stun", stun - 1))
+      |> Map.put(:status, trainer.status |> Map.put("Stun", stun - 1))
     else
       trainer
     end

@@ -8,8 +8,6 @@ defmodule PokebootWeb.BattlesChannel do
       battle = (BattleRooms.load(name) || Battle.new())
                |> Battle.loadTrainer(payload)
 
-      IO.inspect battle
-
       socket = socket
                |> assign(:battle, battle)
                |> assign(:name, name)
@@ -37,15 +35,17 @@ defmodule PokebootWeb.BattlesChannel do
   end
 
   def handle_in("move", payload, socket) do
-
     battle = BattleRooms.load(socket.assigns[:name])
+
+    newBattle = battle
              |> Battle.move(payload)
 
-    BattleRooms.save(socket.assigns[:name], battle)
 
-    send(self(), {"informAll", Battle.client_view(battle)})
+    BattleRooms.save(socket.assigns[:name], newBattle)
 
-    {:reply, {:ok, %{"battle" => Battle.client_view(battle)}}, socket}
+    send(self(), {"informAll", Battle.client_view(newBattle)})
+
+    {:reply, {:ok, %{"battle" => Battle.client_view(newBattle)}}, socket}
   end
 
   # It is also common to receive messages from the client and
