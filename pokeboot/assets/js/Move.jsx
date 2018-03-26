@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { cardTypes } from './constants';
 
-export function Move({ type, id, value, turns, isEnabled }) {
+export function Move({ type, id, value, turns, isEnabled, moveOnClick }) {
     const cardContent = isEnabled
         ? (
             <div>
@@ -14,7 +14,7 @@ export function Move({ type, id, value, turns, isEnabled }) {
                 <CardBody className="move">
                     <CardTitle>{type}</CardTitle>
                     <CardSubtitle>{value}. In effect for : {turns} turn</CardSubtitle>
-                    <Button>Use</Button>
+                    <Button onClick={moveOnClick}>Use</Button>
                 </CardBody>
             </div>
         )
@@ -34,5 +34,6 @@ Move.propTypes = {
     id: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
     turns: PropTypes.number.isRequired,
-    isEnabled: PropTypes.bool
+    isEnabled: PropTypes.bool,
+    moveOnClick: PropTypes.func
 };
