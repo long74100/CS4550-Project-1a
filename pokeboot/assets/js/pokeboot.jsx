@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Wait } from './Wait';
 import { Start } from './Start';
+import { GameOver } from './GameOver';
 
 export default function run_pokeboot(root, channel) {
   ReactDOM.render(<PokeBootBattle channel={channel} />, root);
@@ -10,17 +11,19 @@ export default function run_pokeboot(root, channel) {
 class PokeBootBattle extends React.Component {
   constructor(props) {
     super(props);
+    this.gotView = this.gotView.bind(this)
     this.channel = props.channel;
     this.state = {
       isLoaded: false,
+      moveOnClick: (x) => {
+        this.channel.push("move", { trainerName: this.channel.params.name, cardIndex: x })
+          .receive("ok", this.gotView);
+      }
     };
 
     this.channel.on("refresh", (game) => {
       this.setState(game);
     });
-
-    this.gotView = this.gotView.bind(this)
-
     this.channel.join()
       .receive("ok", this.gotView)
       .receive("error", resp => { console.log("Unable to join", resp) });
@@ -32,19 +35,16 @@ class PokeBootBattle extends React.Component {
   }
 
   render() {
-    if (!this.state.isLoaded) {
-      return (<div><h1>Loading Game!</h1></div>);
-    }
-
-    this.gotView = this.gotView.bind(this)
-
-    let moveOnClick = (x) => {
-      this.channel.push("move", { trainerName: this.channel.params.name, cardIndex: x })
-        .receive("ok", this.gotView);
-    }
 
     const state = this.state;
-    state.moveOnClick = moveOnClick
+    if (!state.isLoaded) {
+      return (<div><h1>Loading Game!</h1></div>);
+    } else if (state.gameOver) {
+      state.trainer.health === 0 ? state.trainer.name : state.opponent.name
+      return < GameOver />
+    }
+    console.log(state)
+
     const gameStarted = state.opponent.name != "";
     return (
       <div>
