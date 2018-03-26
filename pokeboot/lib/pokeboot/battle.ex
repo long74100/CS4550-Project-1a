@@ -84,6 +84,10 @@ defmodule Pokeboot.Battle do
         _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end
 
+      IO.puts "---status"
+      IO.inspect status
+      IO.puts "-----"
+
     trainer
     |> Map.put(:health, hp)
     |> Map.put(:status, status)
@@ -121,18 +125,11 @@ defmodule Pokeboot.Battle do
 
   def checkStatusHelp(battle, trainer, trainerKey, ifSkipTurn) do
     %{"Stun" => stun, "Burn" => burn, "Freeze" => freeze} = trainer.status
-    # IO.puts "before status --------------------"
-    # IO.inspect trainer
-    # IO.puts "------------------------"
-    #
+
     newTrainer =
       trainer
       |> applyBurn(burn)
       |> applyStun(stun)
-
-    # IO.puts "after status --------------------"
-    # IO.inspect newTrainer
-    # IO.puts "------------------------"
 
     if stun > 0 do
       battle
