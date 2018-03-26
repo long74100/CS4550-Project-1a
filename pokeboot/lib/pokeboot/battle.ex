@@ -50,6 +50,7 @@ defmodule Pokeboot.Battle do
   end
 
   def move(battle, payload) do
+    IO.inspect battle
     trainerName = payload["trainerName"]
     cardIndex = payload["cardIndex"]
 
@@ -79,7 +80,7 @@ defmodule Pokeboot.Battle do
 
     {hp, status} =
       case id = card.id do
-        1 -> {(trainer.health + card.value) |> checkHp(trainer.maxHealth), trainer.status}
+        1 -> { checkHp(trainer.health + card.value, trainer.maxHealth), trainer.status}
         id when id in [0, 3] -> {trainer.health - card.value, trainer.status}
         _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end

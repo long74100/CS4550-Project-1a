@@ -8,15 +8,15 @@ defmodule PokebootWeb.BattlesChannel do
       battle = (BattleRooms.load(name) || Battle.new())
                |> Battle.loadTrainer(payload)
 
+      IO.inspect battle
+
       socket = socket
                |> assign(:battle, battle)
                |> assign(:name, name)
 
-      BattleRooms.save(name, battle)
-
       client_battle = Battle.client_view(battle)
-
       send(self(), {"informAll", client_battle})
+      BattleRooms.save(name, battle)
 
       {:ok, %{"join" => name, "battle" => client_battle}, socket}
     else
@@ -25,6 +25,7 @@ defmodule PokebootWeb.BattlesChannel do
   end
 
   def handle_info({"informAll", client_battle}, socket) do
+
     broadcast!(socket, "refresh", client_battle)
     {:noreply, socket}
   end
@@ -36,11 +37,10 @@ defmodule PokebootWeb.BattlesChannel do
   end
 
   def handle_in("move", payload, socket) do
-    battle =
-      socket.assigns[:battle]
-      |> Battle.move(payload)
 
-    socket = assign(socket, :battle, battle)
+    battle = BattleRooms.load(socket.assigns[:name])
+             |> Battle.move(payload)
+
     BattleRooms.save(socket.assigns[:name], battle)
 
     send(self(), {"informAll", Battle.client_view(battle)})
