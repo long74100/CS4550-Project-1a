@@ -11,7 +11,7 @@ export function MovesList({ moves, isEnabled }) {
     return (
         <Fragment>
             <div className="col-12 text-center"><h3>{isEnabled ? "Your Turn" : "Opponents Turn"}</h3></div>
-            <div className="row">{moveDisplay}</div>
+            <div className="row animated infinite bounce slow-bounce">{moveDisplay}</div>
         </Fragment>
     )
 }
