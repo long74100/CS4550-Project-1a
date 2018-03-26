@@ -21,12 +21,12 @@ defmodule Pokeboot.Battle do
       case battle do
         %{trainer1: %Trainer{name: ""}} ->
           battle
-          |> Map.put(:trainer1, %Trainer{name: trainer, starter: starter})
+          |> Map.put(:trainer1, %Trainer{name: trainer, starter: starter} |> checkElement())
           |> (fn battle -> generateTrainer(battle, :trainer1, battle.trainer1, battle.trainer1.starter) end).()
 
         %{trainer1: _, trainer2: %{name: ""}} ->
           battle
-          |> Map.put(:trainer2, %Trainer{name: trainer, starter: starter})
+          |> Map.put(:trainer2, %Trainer{name: trainer, starter: starter} |> checkElement())
           |> (fn battle -> generateTrainer(battle, :trainer2, battle.trainer2, battle.trainer2.starter) end).()
           |> startBattle(Enum.random(0..1));
         _ ->
@@ -175,6 +175,16 @@ defmodule Pokeboot.Battle do
   end
   def checkHp(hp, _) do
     hp
+  end
+
+  def checkElement(trainer) do
+    if trainer.starter == "red-starter" do
+       trainer
+      |> Map.put(:health, 115)
+      |> Map.put(:maxHealth, 115)
+    else
+      trainer
+    end
   end
 
 
