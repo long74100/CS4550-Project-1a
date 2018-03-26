@@ -8,13 +8,20 @@ defmodule Pokeboot.Battle do
 
   def client_view(battle) do
     opponentInfo = battle.trainer2
-    %{trainer: battle.trainer1, opponent: battle.trainer2,
-    turn: battle.turn, turns: battle.turns, gameOver: battle.gameOver}
+
+    %{
+      trainer: battle.trainer1,
+      opponent: battle.trainer2,
+      turn: battle.turn,
+      turns: battle.turns,
+      gameOver: battle.gameOver
+    }
   end
 
   def loadTrainer(battle, payload) do
     trainer = payload["name"]
     starter = payload["starter"]
+
     if trainer == battle.trainer1.name || trainer == battle.trainer2.name do
       battle
     else
@@ -22,13 +29,18 @@ defmodule Pokeboot.Battle do
         %{trainer1: %Trainer{name: ""}} ->
           battle
           |> Map.put(:trainer1, %Trainer{name: trainer, starter: starter} |> checkElement())
-          |> (fn battle -> generateTrainer(battle, :trainer1, battle.trainer1, battle.trainer1.starter) end).()
+          |> (fn battle ->
+                generateTrainer(battle, :trainer1, battle.trainer1, battle.trainer1.starter)
+              end).()
 
         %{trainer1: _, trainer2: %{name: ""}} ->
           battle
           |> Map.put(:trainer2, %Trainer{name: trainer, starter: starter} |> checkElement())
-          |> (fn battle -> generateTrainer(battle, :trainer2, battle.trainer2, battle.trainer2.starter) end).()
-          |> startBattle(Enum.random(0..1));
+          |> (fn battle ->
+                generateTrainer(battle, :trainer2, battle.trainer2, battle.trainer2.starter)
+              end).()
+          |> startBattle(Enum.random(0..1))
+
         _ ->
           battle
       end
@@ -44,6 +56,7 @@ defmodule Pokeboot.Battle do
     battle
     |> Map.put(:turn, 0)
   end
+
   def startBattle(battle, 1) do
     battle
     |> Map.put(:turn, 1)
@@ -69,24 +82,29 @@ defmodule Pokeboot.Battle do
       end
 
     battle
-    |> Map.put(trainerKey, newTrainer |> Map.put(:cards, cards ++ [Cards.generateCard(trainer.starter)]))
+    |> Map.put(
+      trainerKey,
+      newTrainer |> Map.put(:cards, cards ++ [Cards.generateCard(trainer.starter)])
+    )
     |> Map.put(opponentKey, newOpponent)
     |> generateTurn()
-
   end
 
   def useCardOn(trainer, card, frozen) do
-
     {hp, status} =
       case id = card.id do
-        1 -> { checkHp(trainer.health + card.value, trainer.maxHealth), trainer.status}
+        1 ->
+          {checkHp(trainer.health + card.value, trainer.maxHealth), trainer.status}
+
         id when id in [0, 2] ->
           if frozen do
             {checkHp(trainer.health - card.value * 0.5), trainer.status}
           else
             {checkHp(trainer.health - card.value), trainer.status}
           end
-        _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
+
+        _ ->
+          {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end
 
     trainer
@@ -119,6 +137,7 @@ defmodule Pokeboot.Battle do
     battle
     |> checkStatusHelp(battle.trainer1, :trainer1, 1)
   end
+
   def checkStatus(battle, 1) do
     battle
     |> checkStatusHelp(battle.trainer2, :trainer2, 0)
@@ -152,6 +171,7 @@ defmodule Pokeboot.Battle do
       trainer
     end
   end
+
   def applyStun(trainer, stun) do
     if stun > 0 do
       trainer
@@ -160,6 +180,7 @@ defmodule Pokeboot.Battle do
       trainer
     end
   end
+
   def applyFreeze(trainer, freeze) do
     if freeze > 0 do
       trainer
@@ -176,22 +197,22 @@ defmodule Pokeboot.Battle do
       hp
     end
   end
+
   def checkHp(hp, maxHp) when hp > maxHp do
     maxHp
   end
+
   def checkHp(hp, _) do
     hp
   end
 
   def checkElement(trainer) do
     if trainer.starter == "red-starter" do
-       trainer
+      trainer
       |> Map.put(:health, 115)
       |> Map.put(:maxHealth, 115)
     else
       trainer
     end
   end
-
-
 end
