@@ -6,7 +6,7 @@ export function MovesList({ moves, isEnabled, moveOnClick }) {
     let moveDisplay = [];
     if (moves.length != 6) {
         const additionalBuffer = 6 - moves.length;
-        const bufferClasses = `col-xs-${additionalBuffer} col-sm-1${additionalBuffer}`
+        const bufferClasses = `col-xs-${additionalBuffer} col-sm-${additionalBuffer}`
         moveDisplay.push(<div key={6} className={bufferClasses} />)
     }
 
@@ -19,7 +19,7 @@ export function MovesList({ moves, isEnabled, moveOnClick }) {
         />))
 
     const animateClasses = isEnabled ? "animated infinite bounce slow-bounce" : ""
-    const displayRowClasses = animateClasses + " row"
+    const displayRowClasses = animateClasses + " row max-row"
     return (
         <Fragment>
             <div className="col-12 text-center"><h3>{isEnabled ? "Your Turn" : "Opponents Turn"}</h3></div>

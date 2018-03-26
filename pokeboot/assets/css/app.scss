@@ -49,6 +49,7 @@ body {
 .all-cards {
   position: absolute;
   top: 32%;
+  width: 100%;
 }
 
 .wait {
@@ -71,4 +72,8 @@ body {
 
 .slow-bounce {
   animation-duration: 4s !important;
+}
+
+.max-row {
+  width: 100%;
 }
