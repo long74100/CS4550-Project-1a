@@ -24,9 +24,6 @@ class PokeBootBattle extends React.Component {
     this.channel.join()
       .receive("ok", this.gotView)
       .receive("error", resp => { console.log("Unable to join", resp) });
-
-    this.channel.push("move", { trainerName: this.channel.params.name, cardIndex: 1 })
-      .receive("ok", this.gotView);
   }
 
   gotView(view) {
@@ -39,8 +36,15 @@ class PokeBootBattle extends React.Component {
       return (<div><h1>Loading Game!</h1></div>);
     }
 
+    this.gotView = this.gotView.bind(this)
+
+    let moveOnClick = (x) => {
+      this.channel.push("move", { trainerName: this.channel.params.name, cardIndex: x })
+        .receive("ok", this.gotView);
+    }
+
     const state = this.state;
-    console.log(state)
+    state.moveOnClick = moveOnClick
     const gameStarted = state.opponent.name != "";
     return (
       <div>
