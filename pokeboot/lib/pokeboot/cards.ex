@@ -7,7 +7,7 @@ defmodule Pokeboot.Cards do
       %Card{type: "Heal", id: 1, value: 20},
       %Card{type: "S. Atk.", id: 2, value: 15},
       %Card{type: "Burn", id: 3, value: 10, turns: 3},
-      %Card{type: "Freeze", id: 4, value: 0, turns: 2},
+      %Card{type: "Freeze", id: 4, value: 0, turns: 3},
       %Card{type: "Stun", id: 5, value: 0, turns: 2}
     ]
   end

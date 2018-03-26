@@ -64,8 +64,8 @@ defmodule Pokeboot.Battle do
 
     {newTrainer, newOpponent} =
       case cardUsed.id do
-        1 -> {trainer |> useCardOn(cardUsed), opponent}
-        _ -> {trainer, opponent |> useCardOn(cardUsed)}
+        1 -> {trainer |> useCardOn(cardUsed, false), opponent}
+        _ -> {trainer, opponent |> useCardOn(cardUsed, trainer.status["Freeze"] > 0)}
       end
 
     battle
@@ -75,18 +75,19 @@ defmodule Pokeboot.Battle do
 
   end
 
-  def useCardOn(trainer, card) do
+  def useCardOn(trainer, card, frozen) do
 
     {hp, status} =
       case id = card.id do
         1 -> { checkHp(trainer.health + card.value, trainer.maxHealth), trainer.status}
-        id when id in [0, 2] -> {trainer.health - card.value, trainer.status}
+        id when id in [0, 2] ->
+          if frozen do
+            {trainer.health - card.value * 0.5, trainer.status}
+          else
+            {trainer.health - card.value, trainer.status}
+          end
         _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end
-
-      IO.puts "---status"
-      IO.inspect status
-      IO.puts "-----"
 
     trainer
     |> Map.put(:health, hp)
@@ -130,6 +131,7 @@ defmodule Pokeboot.Battle do
       trainer
       |> applyBurn(burn)
       |> applyStun(stun)
+      |> applyFreeze(freeze)
 
     if stun > 0 do
       battle
@@ -161,7 +163,7 @@ defmodule Pokeboot.Battle do
   def applyFreeze(trainer, freeze) do
     if freeze > 0 do
       trainer
-      |> Map.put(:status, trainer.status |> Map.put("freeze", freeze - 1))
+      |> Map.put(:status, trainer.status |> Map.put("Freeze", freeze - 1))
     else
       trainer
     end
