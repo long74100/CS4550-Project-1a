@@ -1,8 +1,8 @@
 defmodule Pokeboot.Cards do
   alias Pokeboot.Card
 
-  def generateHand(starter) do
-    cards = [
+  def cards() do
+    [
       %Card{type: "Attack", id: 0, value: 10},
       %Card{type: "Heal", id: 1, value: 20},
       %Card{type: "S. Atk.", id: 2, value: 15},
@@ -10,7 +10,10 @@ defmodule Pokeboot.Cards do
       %Card{type: "Freeze", id: 4, value: 0, turns: 2},
       %Card{type: "Stun", id: 5, value: 1}
     ]
+  end
 
+  def generateHand(starter) do
+    cards = cards()
     if starter == "blue-starter" do
       1..6
       |> Enum.map(fn x -> generateCard(Enum.random(0..100), cards, starter) end)
@@ -18,6 +21,10 @@ defmodule Pokeboot.Cards do
       1..5
       |> Enum.map(fn x -> generateCard(Enum.random(0..100), cards, starter) end)
     end
+  end
+
+  def generateCard(starter) do
+    generateCard(Enum.random(0..100), cards(), starter)
   end
 
   def generateCard(rand, cards, starter) when rand in 1..45 do
@@ -53,6 +60,13 @@ defmodule Pokeboot.Cards do
   end
 
   def multiplier(card, starter) do
-    card
+    newCard =
+      if starter == "yellow-starter" do
+        card
+        |> Map.put(:value, card.value * 1.1)
+      else
+        card
+      end
+    newCard
   end
 end

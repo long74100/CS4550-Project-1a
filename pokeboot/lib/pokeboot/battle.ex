@@ -8,11 +8,11 @@ defmodule Pokeboot.Battle do
 
   def client_view(battle) do
     opponentInfo = battle.trainer2
-    %{trainer: battle.trainer1, opponent: battle.trainer2, turn: battle.turn, turns: battle.turns, gameOver: battle.gameOver}
+    %{trainer: battle.trainer1, opponent: battle.trainer2,
+    turn: battle.turn, turns: battle.turns, gameOver: battle.gameOver}
   end
 
   def loadTrainer(battle, payload) do
-    IO.inspect battle
     trainer = payload["name"]
     starter = payload["starter"]
     if trainer == battle.trainer1.name || trainer == battle.trainer2.name do
@@ -37,8 +37,7 @@ defmodule Pokeboot.Battle do
 
   def generateTrainer(battle, key, trainer, starter) do
     battle
-    |> Map.put(key, trainer
-                    |> Map.put(:cards, Cards.generateHand(starter)))
+    |> Map.put(key, trainer |> Map.put(:cards, Cards.generateHand(starter)))
   end
 
   def startBattle(battle, 0) do
@@ -55,32 +54,25 @@ defmodule Pokeboot.Battle do
     cardIndex = payload["cardIndex"]
 
     {trainerKey, opponentKey, trainer, opponent} =
-        if trainerName == battle.trainer1.name do
-          {:trainer1, :trainer2, battle.trainer1, battle.trainer2}
-        else
-          {:trainer2, :trainer1, battle.trainer2, battle.trainer1}
-        end
+      if trainerName == battle.trainer1.name do
+        {:trainer1, :trainer2, battle.trainer1, battle.trainer2}
+      else
+        {:trainer2, :trainer1, battle.trainer2, battle.trainer1}
+      end
 
-    {cardUsed, cards} = trainer.cards
-                        |> List.pop_at(cardIndex)
+    {cardUsed, cards} = trainer.cards |> List.pop_at(cardIndex)
 
     {newTrainer, newOpponent} =
-
-    if cardUsed.id == 1 do
-      {trainer |> useCardOn(cardUsed), opponent}
-    else
-      {trainer, opponent |> useCardOn(cardUsed)}
-    end
-
-    battle = battle
-    |> Map.put(trainerKey, newTrainer |> Map.put(:cards, cards))
-    |> Map.put(opponentKey, newOpponent)
-    |> generateTurn()
-    IO.puts "----------after ttack------------------"
-    IO.inspect battle
-    IO.puts "----------after ttack------------------"
+      case cardUsed.id do
+        1 -> {trainer |> useCardOn(cardUsed), opponent}
+        _ -> {trainer, opponent |> useCardOn(cardUsed)}
+      end
 
     battle
+    |> Map.put(trainerKey, newTrainer |> Map.put(:cards, cards ++ [Cards.generateCard(trainer.starter)]))
+    |> Map.put(opponentKey, newOpponent)
+    |> generateTurn()
+
   end
 
   def useCardOn(trainer, card) do
@@ -89,7 +81,7 @@ defmodule Pokeboot.Battle do
       case id = card.id do
         1 -> {(trainer.health + card.value) |> checkHp(trainer.maxHealth), trainer.status}
         id when id in [0, 3] -> {trainer.health - card.value, trainer.status}
-        _ -> {trainer.health, trainer.status ++ [card]}
+        _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end
 
     trainer
@@ -103,18 +95,81 @@ defmodule Pokeboot.Battle do
         battle
         |> Map.put(:gameOver, TRUE)
       else
+        turn =
+          case battle.turn do
+            0 -> 1
+            _ -> 0
+          end
+
         battle
+        |> Map.put(:turn, turn)
+        |> checkStatus(turn)
+        |> Map.put(:turns, battle.turns + 1)
       end
 
     newBattle
   end
 
-  def checkHp(hp, maxHp) do
-    if hp > maxHp do
-      maxHp
+  def checkStatus(battle, 0) do
+    battle
+    |> checkStatusHelp(battle.trainer1, :trainer1, 1)
+  end
+  def checkStatus(battle, 1) do
+    battle
+    |> checkStatusHelp(battle.trainer2, :trainer2, 0)
+  end
+
+  def checkStatusHelp(battle, trainer, trainerKey, ifSkipTurn) do
+    %{"Stun" => stun, "Burn" => burn, "Freeze" => freeze} = trainer.status
+
+    newTrainer =
+      trainer
+      |> applyBurn(burn)
+      |> applyStun(stun)
+    IO.inspect newTrainer
+
+    if stun > 0 do
+      battle
+      |> Map.put(trainerKey, newTrainer)
+      |> Map.put(:turn, ifSkipTurn)
     else
-      hp
+      battle
+      |> Map.put(trainerKey, newTrainer)
     end
+  end
+
+  def applyBurn(trainer, burn) do
+    if burn > 0 do
+      trainer
+      |> Map.put(:health, trainer.health - 10)
+      |> Map.put(:status, trainer.status |> Map.put("Burn", burn - 1))
+    else
+      trainer
+    end
+  end
+  def applyStun(trainer, stun) do
+    if stun > 0 do
+      trainer
+      |> Map.put(:status, trainer.status |> Map.put("stun", stun - 1))
+    else
+      trainer
+    end
+  end
+  def applyFreeze(trainer, freeze) do
+    if freeze > 0 do
+      trainer
+      |> Map.put(:status, trainer.status |> Map.put("freeze", freeze - 1))
+    else
+      trainer
+    end
+  end
+
+
+  def checkHp(hp, maxHp) when hp > maxHp do
+    maxHp
+  end
+  def checkHp(hp, _) do
+    hp
   end
 
 
