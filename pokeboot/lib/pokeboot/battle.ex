@@ -3,7 +3,7 @@ defmodule Pokeboot.Battle do
   alias Pokeboot.Cards
 
   def new() do
-    %{trainer1: %Trainer{}, trainer2: %Trainer{}, turn: 0, turns: 0, gameOver: FALSE}
+    %{trainer1: %Trainer{}, trainer2: %Trainer{}, turn: 0, turns: 0, gameOver: false}
   end
 
   def client_view(battle) do
@@ -82,9 +82,9 @@ defmodule Pokeboot.Battle do
         1 -> { checkHp(trainer.health + card.value, trainer.maxHealth), trainer.status}
         id when id in [0, 2] ->
           if frozen do
-            {trainer.health - card.value * 0.5, trainer.status}
+            {checkHp(trainer.health - card.value * 0.5), trainer.status}
           else
-            {trainer.health - card.value, trainer.status}
+            {checkHp(trainer.health - card.value), trainer.status}
           end
         _ -> {trainer.health, trainer.status |> Map.put(card.type, card.turns)}
       end
@@ -96,9 +96,9 @@ defmodule Pokeboot.Battle do
 
   def generateTurn(battle) do
     newBattle =
-      if battle.trainer1.health == 0 || battle.trainer2.health == 0 do
+      if battle.trainer1.health <= 0 || battle.trainer2.health <= 0 do
         battle
-        |> Map.put(:gameOver, TRUE)
+        |> Map.put(:gameOver, true)
       else
         turn =
           case battle.turn do
@@ -169,7 +169,13 @@ defmodule Pokeboot.Battle do
     end
   end
 
-
+  def checkHp(hp) do
+    if hp < 0 do
+      0
+    else
+      hp
+    end
+  end
   def checkHp(hp, maxHp) when hp > maxHp do
     maxHp
   end
