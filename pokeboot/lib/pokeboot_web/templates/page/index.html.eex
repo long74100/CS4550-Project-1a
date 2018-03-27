@@ -94,15 +94,15 @@
   <div class="p-5 w-75 mx-auto">
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Mystic-643418365 -->
     <img src="https://img00.deviantart.net/97b1/i/2016/306/e/e/pokemon_go_team_mystic_by_fabledcreative-dan2osd.jpg"
-      class="starter col-3" alt="blue-starter" id="blue-starter">
+      class="starter col-2" alt="blue-starter" id="blue-starter">
 
     <!-- https://www.deviantart.com/art/Pokemon-Team-Valor-643418921 -->
     <img src="https://img00.deviantart.net/655d/i/2017/112/0/2/pokemon_team_valor_by_fabledcreative-dan2p7t.jpg"
-      class="starter col-3" alt="red-starter" id="red-starter">
+      class="starter col-2" alt="red-starter" id="red-starter">
 
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Instinct-643420942 -->
     <img src="https://img00.deviantart.net/04e0/i/2017/108/c/2/pokemon_go_team_instinct_by_fabledcreative-dan2qry.jpg"
-      class="starter col-3" alt="yellow-starter" id="yellow-starter">
+      class="starter col-2" alt="yellow-starter" id="yellow-starter">
 
     <p class="h2 mt-2" id="starter-desc"></p>
   </div>
