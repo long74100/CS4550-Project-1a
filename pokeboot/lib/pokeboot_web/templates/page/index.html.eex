@@ -90,7 +90,6 @@
   </div>
 
   <button type="button" class="btn btn-warning mt-3" id="join-game-button">Join Game</button>
-  <button type="button" class="btn btn-warning mt-3">Random Match</button>
 
   <div class="p-5 w-75 mx-auto">
     <!-- https://www.deviantart.com/art/Pokemon-Go-Team-Mystic-643418365 -->
