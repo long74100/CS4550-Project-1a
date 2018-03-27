@@ -20,12 +20,20 @@ export function Start({ opponent, trainer, turn, moveOnClick, gameLog }) {
     opponentHistory.reverse()
 
     const isEnabled = (isThisTrainer && turn === 0) || (!isThisTrainer && turn === 1)
-    return (
-        <div>
-            <HpBar isOpponent={true} {...opponentProps} history={opponentHistory} />
+
+    let centerRow = null;
+    if (trainer.name === trainerName || trainerName === opponent.name) {
+        centerRow = (
             <div className="row all-cards">
                 <MovesList moves={displayCards} isEnabled={isEnabled} moveOnClick={moveOnClick} />
             </div>
+        )
+    }
+
+    return (
+        <div>
+            <HpBar isOpponent={true} {...opponentProps} history={opponentHistory} />
+            {centerRow}
             <HpBar isOpponent={false} {...trainerProps} history={trainerHistory} />
         </div>
     );
