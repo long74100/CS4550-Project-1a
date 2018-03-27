@@ -6,16 +6,14 @@
 use Mix.Config
 
 # General application configuration
-config :pokeboot,
-  ecto_repos: [Pokeboot.Repo]
+config :pokeboot, ecto_repos: [Pokeboot.Repo]
 
 # Configures the endpoint
 config :pokeboot, PokebootWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "wY9L5dd4gnrA9+wrTtVSU9DBYzTO2ak/xUWa23rk1FL+cSQ2PItl5iBqFwLinYpZ",
+  secret_key_base: "vqrpJKT7zhk4XwrCxoHKJ1e0b9+Iz0StCkgc+tvfCdK44onDcMfjFhMGfUrxSvsj",
   render_errors: [view: PokebootWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Pokeboot.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Pokeboot.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -24,4 +22,4 @@ config :logger, :console,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"
