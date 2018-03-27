@@ -5,7 +5,7 @@ export const cardTypes = {
     3: "/images/burn.png",
     4: "/images/freeze.png",
     5: "/images/stun.png",
-    'cardBack': "/images/cardBack.jpg"
+    'cardBack': "/images/cardBack.png"
 }
 
 // all cardTypes images gathered from:

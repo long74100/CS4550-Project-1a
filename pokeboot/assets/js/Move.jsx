@@ -10,19 +10,19 @@ export function Move({ type, id, value, turns, isEnabled, moveOnClick }) {
     const cardContent = isEnabled
         ? (
             <div>
-                <CardImg top width="100%" src={cardTypes[id]} alt="Card image cap" />
-                <CardBody className="move">
+                <CardImg top width="100%" src={cardTypes[id]} />
+                <CardBody className="move white-background">
                     <CardTitle>{type}</CardTitle>
                     <CardSubtitle>{value}. In effect for : {turns} turn</CardSubtitle>
                     <Button onClick={moveOnClick}>Use</Button>
                 </CardBody>
             </div>
         )
-        : <CardImg top width="100%" src={cardTypes["cardBack"]} alt="Card image cap" />
+        : <CardImg top width="100%" src={cardTypes["cardBack"]} />
 
     return (
         <div className="col-xs-2 col-sm-2 p-3 text-center text-dark">
-            <Card>
+            <Card className="transparent">
                 {cardContent}
             </Card>
         </div>

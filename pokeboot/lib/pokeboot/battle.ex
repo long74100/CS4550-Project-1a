@@ -3,7 +3,14 @@ defmodule Pokeboot.Battle do
   alias Pokeboot.Cards
 
   def new() do
-    %{trainer1: %Trainer{}, trainer2: %Trainer{}, turn: 0, turns: 0, gameOver: false}
+    %{
+      trainer1: %Trainer{},
+      trainer2: %Trainer{},
+      turn: 0,
+      turns: 0,
+      gameLog: %{trainer1: [], trainer2: []},
+      gameOver: false
+    }
   end
 
   def client_view(battle) do
@@ -14,6 +21,7 @@ defmodule Pokeboot.Battle do
       opponent: battle.trainer2,
       turn: battle.turn,
       turns: battle.turns,
+      gameLog: battle.gameLog,
       gameOver: battle.gameOver
     }
   end
@@ -82,6 +90,10 @@ defmodule Pokeboot.Battle do
       end
 
     battle
+    |> Map.put(
+      :gameLog,
+      battle.gameLog |> Map.put(trainerKey, battle.gameLog[trainerKey] ++ [cardUsed.id])
+    )
     |> Map.put(
       trainerKey,
       newTrainer |> Map.put(:cards, cards ++ [Cards.generateCard(trainer.starter)])
