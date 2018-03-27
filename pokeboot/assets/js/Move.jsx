@@ -13,7 +13,7 @@ export function Move({ type, id, value, turns, isEnabled, moveOnClick }) {
                 <CardImg top width="100%" src={cardTypes[id]} />
                 <CardBody className="move white-background">
                     <CardTitle>{type}</CardTitle>
-                    <CardSubtitle>{value}. In effect for : {turns} turn</CardSubtitle>
+                    <CardSubtitle>{value}<br />In effect for : {turns} turn</CardSubtitle>
                     <Button onClick={moveOnClick}>Use</Button>
                 </CardBody>
             </div>
