@@ -31,12 +31,7 @@ defmodule Pokeboot.Battle do
     starter = payload["starter"]
 
     if trainer == battle.trainer1.name || trainer == battle.trainer2.name do
-      if battle.gameOver do
-        new()
-        |> loadTrainer(payload)
-      else
-        battle
-      end
+      battle
     else
       case battle do
         %{trainer1: %Trainer{name: ""}} ->
@@ -231,7 +226,15 @@ defmodule Pokeboot.Battle do
       battle
       |> Map.put(:gameOver, true)
     else
-      battle 
+      battle
+    end
+  end
+
+  def isBattleOver(battle) do
+    if battle.gameOver == true do
+      new()
+    else
+      battle
     end
   end
 

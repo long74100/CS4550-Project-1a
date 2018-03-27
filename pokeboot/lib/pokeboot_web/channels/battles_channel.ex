@@ -6,6 +6,7 @@ defmodule PokebootWeb.BattlesChannel do
   def join("battles:" <> name, payload, socket) do
     if authorized?(payload) do
       battle = (BattleRooms.load(name) || Battle.new())
+               |> Battle.isBattleOver()
                |> Battle.loadTrainer(payload)
 
       socket = socket
