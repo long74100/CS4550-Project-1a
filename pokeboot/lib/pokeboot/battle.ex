@@ -31,7 +31,12 @@ defmodule Pokeboot.Battle do
     starter = payload["starter"]
 
     if trainer == battle.trainer1.name || trainer == battle.trainer2.name do
-      battle
+      if battle.gameOver do
+        new()
+        |> loadTrainer(payload)
+      else
+        battle
+      end
     else
       case battle do
         %{trainer1: %Trainer{name: ""}} ->
@@ -125,24 +130,17 @@ defmodule Pokeboot.Battle do
   end
 
   def generateTurn(battle) do
-    newBattle =
-      if battle.trainer1.health <= 0 || battle.trainer2.health <= 0 do
-        battle
-        |> Map.put(:gameOver, true)
-      else
-        turn =
-          case battle.turn do
-            0 -> 1
-            _ -> 0
-          end
-
-        battle
-        |> Map.put(:turn, turn)
-        |> checkStatus(turn)
-        |> Map.put(:turns, battle.turns + 1)
+    turn =
+      case battle.turn do
+        0 -> 1
+        _ -> 0
       end
 
-    newBattle
+      battle
+      |> Map.put(:turn, turn)
+      |> checkStatus(turn)
+      |> Map.put(:turns, battle.turns + 1)
+      |> checkBattleOver()
   end
 
   def checkStatus(battle, 0) do
@@ -227,4 +225,14 @@ defmodule Pokeboot.Battle do
       trainer
     end
   end
+
+  def checkBattleOver(battle) do
+    if battle.trainer1.health <= 0 || battle.trainer2.health <= 0 do
+      battle
+      |> Map.put(:gameOver, true)
+    else
+      battle 
+    end
+  end
+
 end
