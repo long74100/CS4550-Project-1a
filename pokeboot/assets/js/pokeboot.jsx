@@ -40,7 +40,7 @@ class PokeBootBattle extends React.Component {
     if (!state.isLoaded) {
       return (<div><h1>Loading Game!</h1></div>);
     } else if (state.gameOver) {
-      const winner = state.trainer.health === 0 ? state.trainer.name : state.opponent.name
+      const winner = state.trainer.health === 0 ? state.opponent.name : state.trainer.name
       return < GameOver winner={winner} />
     }
 

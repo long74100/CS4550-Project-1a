@@ -9,7 +9,7 @@ export function GameOver({ winner }) {
         <div className="d-flex justify-content-center wait text-center">
             <div className="animated bounceIn">
                 <h1>Game Over! Winner : {winner}</h1>
-                <Button color="success" onClick={() => window.location.replace("/")}>Use</Button>
+                <Button color="success" onClick={() => window.location.replace("/")}>Home</Button>
             </div>
         </div >
     );
