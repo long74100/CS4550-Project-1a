@@ -30,9 +30,9 @@ export function HpBar({ name, health, maxHealth, isOpponent, history, status }) 
         </Fragment>
         : null;
 
-    const burn = status.Burn > 0 ? <span className="col-3 rounded bg-warning">BURN</span> : <span className="col-3"></span>;
+    const burn = status.Burn > 0 ? <span className="col-3 rounded bg-danger">BURN</span> : <span className="col-3"></span>;
     const freeze = status.Freeze > 0 ? <span className="col-3 rounded bg-primary">FREEZE</span> : <span className="col-3"></span>;
-    const stun = status.Stun > 0 ? <span className="col-3 rounded bg-danger">STUN</span> : <span className="col-3"></span>;
+    const stun = status.Stun > 0 ? <span className="col-3 rounded bg-secondary">STUN</span> : <span className="col-3"></span>;
 
     return (
         <div className={smartClasses}>
