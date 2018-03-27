@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Progress } from 'reactstrap';
 import { cardTypes } from './constants';
 
-export function HpBar({ name, health, maxHealth, isOpponent, history }) {
+export function HpBar({ name, health, maxHealth, isOpponent, history, status }) {
     const smartClasses = isOpponent ? "hp-bar-top row" : "hp-bar-bottom row";
     const regularClasses = "col-5 border border-dark p-2 bg-white rounded text-dark hp-bar-filler";
 
@@ -30,13 +30,23 @@ export function HpBar({ name, health, maxHealth, isOpponent, history }) {
         </Fragment>
         : null;
 
+    const burn = status.Burn > 0 ? <span className="col-3 rounded bg-warning">BURN</span> : <span className="col-3"></span>;
+    const freeze = status.Freeze > 0 ? <span className="col-3 rounded bg-primary">FREEZE</span> : <span className="col-3"></span>;
+    const stun = status.Stun > 0 ? <span className="col-3 rounded bg-danger">STUN</span> : <span className="col-3"></span>;
+
     return (
         <div className={smartClasses}>
             {leftside}
             <div className={regularClasses}>
                 <span>{name}</span>
+
                 <Progress className="hp-bar-empty" color="33e737" value={health * 100 / maxHealth} />
-                <div className="text-right">{health} / {maxHealth}</div>
+                <div className="row text-right p-0 m-0">
+                    {burn}
+                    {freeze}
+                    {stun}
+                    <div className="col-3">{health} / {maxHealth}</div>
+                </div>
             </div>
             {rightside}
         </div >
