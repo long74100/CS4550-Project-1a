@@ -43,7 +43,6 @@ class PokeBootBattle extends React.Component {
       const winner = state.trainer.health === 0 ? state.trainer.name : state.opponent.name
       return < GameOver winner={winner} />
     }
-    console.log(state)
 
     const gameStarted = state.opponent.name != "";
     return (

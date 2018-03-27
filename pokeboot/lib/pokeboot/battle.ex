@@ -6,7 +6,8 @@ defmodule Pokeboot.Battle do
     %{
       trainer1: %Trainer{},
       trainer2: %Trainer{},
-      turn: 0, turns: 0,
+      turn: 0,
+      turns: 0,
       gameLog: %{trainer1: [], trainer2: []},
       gameOver: false
     }
@@ -89,7 +90,10 @@ defmodule Pokeboot.Battle do
       end
 
     battle
-    |> Map.put(:gameLog, battle.gameLog |> Map.put(trainerKey, battle.gameLog[trainerKey] ++ [cardUsed]))
+    |> Map.put(
+      :gameLog,
+      battle.gameLog |> Map.put(trainerKey, battle.gameLog[trainerKey] ++ [cardUsed.id])
+    )
     |> Map.put(
       trainerKey,
       newTrainer |> Map.put(:cards, cards ++ [Cards.generateCard(trainer.starter)])
