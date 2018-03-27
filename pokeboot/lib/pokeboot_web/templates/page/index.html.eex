@@ -22,7 +22,7 @@
       } else {
         document.querySelector("#team-alert").innerHTML = `
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+          Please fill out both Name and Battle Name and pick a team!
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -75,7 +75,7 @@
 
   }, false);
 </script>
-<div class="text-center p-5">
+<div class="text-center p-2">
   <div id='team-alert'>
   </div>
 
@@ -104,7 +104,7 @@
     <img src="https://img00.deviantart.net/04e0/i/2017/108/c/2/pokemon_go_team_instinct_by_fabledcreative-dan2qry.jpg"
       class="starter col-3" alt="yellow-starter" id="yellow-starter">
 
-    <p class="h2 mt-4" id="starter-desc"></p>
+    <p class="h2 mt-2" id="starter-desc"></p>
   </div>
 
 </div>
